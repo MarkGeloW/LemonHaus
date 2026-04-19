@@ -14,23 +14,42 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create()
     {
+        if (auth()->check()) {
+            // Redirect authenticated users to their role-specific page
+            $role = auth()->user()->role;
+
+            return match ($role) {
+                'admin' => redirect()->route('dashboard'),
+                'cashier' => redirect()->route('orders.index'),
+                'kitchen' => redirect()->route('kitchen.index'),
+                'inventory' => redirect()->route('inventory.index'),
+                default => redirect('/'),
+            };
+        }
+
         return view('auth.login');
     }
-
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+    public function store(LoginRequest $request)
+{
+    $request->authenticate();
 
-        $request->session()->regenerate();
+    $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
-    }
+    $role = auth()->user()->role;
 
+ return match ($role) {
+    'admin' => redirect()->route('dashboard'),
+    'cashier' => redirect()->route('cashier.dashboard'),
+    'kitchen' => redirect()->route('kitchen.dashboard'),
+    'inventory' => redirect()->route('inventory.dashboard'),
+    default => redirect()->route('login'),
+};
+}
     /**
      * Destroy an authenticated session.
      */
