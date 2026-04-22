@@ -10,31 +10,25 @@ Route::get('/', function () {
 });
 
 // Admin only
+// Admin only
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
 
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    // Inventory Management
+    Route::get('/admin/inventory', [AdminController::class, 'inventoryIndex'])->name('inventory.index');
+    Route::get('/admin/inventory/create', [AdminController::class, 'inventoryCreate'])->name('inventory.create');
+    Route::post('/admin/inventory', [AdminController::class, 'storeInventory'])->name('inventory.store');
 
+    // Other Admin Routes
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
-
-    Route::get('/admin/orders', function () {
-        return view('admin.orders');
-    })->name('orders.index');
-
-    Route::get('/admin/kitchen', function () {
-        return view('admin.kitchen');
-    })->name('kitchen.index');
-
-    Route::get('/admin/inventory', function () {
-        return view('admin.inventory');
-    })->name('inventory.index');
-
-    Route::get('/admin/reports', function () {
-        return view('admin.reports');
-    })->name('reports.index');
+    
+    Route::get('/admin/orders', function () { return view('admin.orders'); })->name('orders.index');
+    Route::get('/admin/kitchen', function () { return view('admin.kitchen'); })->name('kitchen.index');
+    Route::get('/admin/reports', function () { return view('admin.reports'); })->name('reports.index');
 });
 
 
