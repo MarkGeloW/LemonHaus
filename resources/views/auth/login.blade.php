@@ -130,7 +130,7 @@
                         <span class="px-3 py-1 bg-gray-100 rounded-md text-sm">admin</span>
                         <span class="px-3 py-1 bg-gray-100 rounded-md text-sm">cashier</span>
                         <span class="px-3 py-1 bg-gray-100 rounded-md text-sm">kitchen</span>
-                        <span class="px-3 py-1 bg-gray-100 rounded-md text-sm">inventory</span>
+                       
                     </div>
                 </div>
             </div>

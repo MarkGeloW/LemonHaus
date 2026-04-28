@@ -34,13 +34,6 @@
                 <span>Kitchen Queue</span>
             </a>
 
-            <a href="{{ route('kitchen.inventory') }}"
-               class="sidebar-link {{ request()->routeIs('kitchen.inventory') ? 'active-sidebar' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m7.5 4.5 9 5.25v10.5l-9-5.25V4.5Zm0 0L3 7.125v10.5l4.5-2.625m9-5.25L12 12.375m0 0L3 7.125"/>
-                </svg>
-                <span>Inventory</span>
-            </a>
 
           
 
