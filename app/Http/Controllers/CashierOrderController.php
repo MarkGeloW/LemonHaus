@@ -10,44 +10,49 @@ class CashierOrderController extends Controller
     public function index()
     {
         $orders = Order::latest()->get();
-
         return view('cashier.orders', compact('orders'));
     }
-public function store(Request $request)
+
+    public function store(Request $request)
     {
         // Validate the order inputs
         $request->validate([
             'customer_name' => 'required|string|max:255',
             'product_name' => 'required|array',
             'product_name.*' => 'string|max:255',
+            'price' => 'required|array',              // Validate price array
+            'price.*' => 'numeric|min:0',            // Validate individual prices
             'quantity' => 'required|array',
             'quantity.*' => 'integer|min:1',
         ]);
 
         // Create orders for each product
         foreach ($request->product_name as $index => $productName) {
+            $quantity = $request->quantity[$index];
+            $price = $request->price[$index];
+            $total = $quantity * $price; // Calculate total for this item
+
             Order::create([
-                'customer_name' => $request->customer_name,  // Store the customer name in the order table
+                'customer_name' => $request->customer_name,
                 'product_name' => $productName,
-                'quantity' => $request->quantity[$index],
+                'price' => $price,           // Store the unit price
+                'quantity' => $quantity,
+                'total' => $total,           // Store the total cost
                 'status' => 'pending',
             ]);
         }
 
-        // Redirect to the orders index page
         return redirect()
             ->route('cashier.orders')
             ->with('success', 'Order created and sent to kitchen.');
     }
 
     public function destroy($id)
-{
-    // Find the order by ID and delete it
-    $order = Order::findOrFail($id);
-    $order->delete();
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
 
-    // Redirect back to the orders page with success message
-    return redirect()->route('cashier.orders')
-        ->with('success', 'Order deleted successfully.');
-}
+        return redirect()->route('cashier.orders')
+            ->with('success', 'Order deleted successfully.');
+    }
 }
