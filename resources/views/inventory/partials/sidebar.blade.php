@@ -24,7 +24,7 @@
                 <span>Dashboard</span>
             </a>
 
-            
+
 
             <a href="{{ route('inventory.inventory') }}"
                class="sidebar-link {{ request()->routeIs('inventory.inventory') ? 'active-sidebar' : '' }}">
@@ -34,8 +34,8 @@
                 <span>Inventory</span>
             </a>
 
-            
-            
+
+
 
         </nav>
     </div>
@@ -61,7 +61,7 @@
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="flex items-center gap-3 text-red-500 font-medium hover:text-red-600 transition">
+            <button type="submit" class="flex items-center gap-3 font-medium text-red-500 transition hover:text-red-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H3m0 0 4-4m-4 4 4 4m6-9h6a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-6"/>
                 </svg>

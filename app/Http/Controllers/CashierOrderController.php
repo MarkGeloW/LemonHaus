@@ -11,12 +11,35 @@ class CashierOrderController extends Controller
     public function index()
     {
         $orders = Order::latest()->get();
-        return view('cashier.orders', compact('orders'));
+
+        // CHECK INVENTORY AVAILABILITY FOR MENU
+        $inventory = Inventory::all();
+
+        $checkStock = function($keyword) use ($inventory) {
+            $item = $inventory->first(function($i) use ($keyword) {
+                return stripos($i->name, $keyword) !== false;
+            });
+            return $item ? $item->stock_level : 0;
+        };
+
+        $cups = $checkStock('Cup');
+        $straws = $checkStock('Straw');
+        $lemons = $checkStock('Lemon');
+        
+        $baseStock = min($cups, $straws, $lemons);
+
+        $drinkAvailability = [
+            'Classic Lemonade'    => $baseStock > 0,
+            'Mint Lemonade'       => $baseStock > 0 && $checkStock('Mint') > 0,
+            'Strawberry Lemonade' => $baseStock > 0 && $checkStock('Strawberry') > 0,
+            'Grape Lemonade'      => $baseStock > 0 && $checkStock('Grape') > 0,
+        ];
+
+        return view('cashier.orders', compact('orders', 'drinkAvailability'));
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming order
         $request->validate([
             'customer_name' => 'required|string|max:255',
             'product_name' => 'required|array',
@@ -27,13 +50,10 @@ class CashierOrderController extends Controller
             'quantity.*' => 'integer|min:1',
         ]);
 
-        // Loop through each product the customer ordered
         foreach ($request->product_name as $index => $productName) {
-            
             $qty = $request->quantity[$index];
             $price = $request->price[$index];
 
-            // Save the order to the database
             Order::create([
                 'customer_name' => $request->customer_name,
                 'product_name' => $productName,
@@ -43,11 +63,7 @@ class CashierOrderController extends Controller
                 'status' => 'pending',
             ]);
 
-            // ==========================================
             // SMART INVENTORY DEDUCTION
-            // ==========================================
-            
-            // Helper function to deduct stock safely
             $deductStock = function($itemName, $amount) {
                 $inventoryItem = Inventory::where('name', 'LIKE', '%' . $itemName . '%')->first();
                 if ($inventoryItem) {
@@ -55,12 +71,10 @@ class CashierOrderController extends Controller
                 }
             };
 
-            // 1. STANDARD ITEMS: Every drink gets a Cup, Straw, and Lemon automatically
             $deductStock('Cup', $qty);
             $deductStock('Straw', $qty);
             $deductStock('Lemon', $qty);
 
-            // 2. FLAVOR SPECIFIC ITEMS: Deduct extra ingredients based on the exact dropdown choice
             if ($productName === 'Mint Lemonade') {
                 $deductStock('Mint', $qty);
             } elseif ($productName === 'Strawberry Lemonade') {
@@ -70,7 +84,6 @@ class CashierOrderController extends Controller
             }
         }
 
-        // Redirect back with a success message
         return redirect()
             ->route('cashier.orders')
             ->with('success', 'Order created successfully! Ingredients have been automatically deducted from stock.');

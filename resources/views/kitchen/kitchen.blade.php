@@ -18,7 +18,6 @@
             @endif
 
             <div class="grid grid-cols-3 gap-7">
-
                 {{-- PENDING --}}
                 <div class="rounded-[22px] border border-[#e6ebf2] bg-white shadow-sm overflow-hidden flex flex-col h-[calc(100vh-180px)]">
                     <div class="bg-[#fff5be] px-6 py-5 flex items-center justify-between shrink-0">
