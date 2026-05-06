@@ -10,6 +10,8 @@ class Order extends Model
         'customer_name',
         'product_name',
         'quantity',
+        'price', // Added
+        'total', // Added
         'status',
     ];
 

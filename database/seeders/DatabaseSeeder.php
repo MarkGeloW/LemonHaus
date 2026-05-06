@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // Fixed Admin Account
         User::updateOrCreate(
-            ['username' => 'admin'],
+            ['username' => 'admin2'],
             [
                 'name' => 'Admin',
                 'email' => 'admin@lemonhaus.com',
