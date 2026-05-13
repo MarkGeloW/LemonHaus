@@ -1,3 +1,4 @@
+resources/views/cashier/partials/sidebar.blade.php
 @if(auth()->check() && auth()->user()->role === 'cashier')
 <aside class="w-[285px] min-h-screen bg-white border-r border-[#e5e7eb] flex flex-col justify-between shrink-0">
 
