@@ -2,23 +2,23 @@
 
 ## Overview
 
-LemonHaus Management System is a web-based system built with Laravel for managing LemonHaus operations. It supports role-based access for admin, cashier, and kitchen staff.
+LemonHaus Management System is a Laravel-based system made for managing the daily operations of LemonHaus. It covers order taking, kitchen queue monitoring, product and stock tracking, sales records, reports, and user activity logs.
 
-The system helps manage product ordering, kitchen order status, stock monitoring, sales records, reports, and user activity logs. Inventory management is handled inside the admin side.
+The system has three user roles: admin, cashier, and kitchen staff. Inventory is managed by the admin, so there is no separate inventory staff role.
 
 ## Main Roles
 
 ### Admin
 
-The admin manages the whole system.
+The admin controls and monitors the main parts of the system.
 
-Main functions:
+The admin can:
 
-- View dashboard
+- View the dashboard
 - Manage users
 - View audit logs
 - Manage cashier orders
-- View kitchen queue
+- View the kitchen queue
 - Manage inventory
 - Add, edit, and delete LemonHaus products
 - Add, edit, and delete stocks
@@ -29,23 +29,23 @@ Main functions:
 
 The cashier handles customer orders.
 
-Main functions:
+The cashier can:
 
-- View dashboard
+- View the dashboard
 - Create customer orders
-- Select available products from dropdown
-- View order list
-- Delete orders if needed
-- View kitchen queue status
+- Choose available products from a dropdown list
+- View the order list
+- Delete orders when needed
+- View the kitchen queue status
 
 ### Kitchen Staff
 
-The kitchen staff handles food preparation.
+The kitchen staff handles order preparation.
 
-Main functions:
+The kitchen staff can:
 
-- View dashboard
-- View kitchen queue
+- View the dashboard
+- View the kitchen queue
 - Accept pending orders
 - Mark orders as ready
 - Archive completed orders to records
@@ -55,11 +55,11 @@ Main functions:
 
 ## 1. Dashboard
 
-The dashboard shows a quick overview of system activity.
+The dashboard gives a quick view of what is happening in the system.
 
-Displayed data:
+It shows:
 
-- Sales based on recorded completed orders
+- Sales from completed orders
 - Active orders
 - Low stock items
 - Average preparation time
@@ -67,13 +67,13 @@ Displayed data:
 - Low stock alerts
 - Recent activity
 
-The dashboard is shared across admin, cashier, and kitchen roles. It shows the correct sidebar depending on the logged-in user role.
+The same dashboard is used by the admin, cashier, and kitchen staff. The sidebar changes depending on the role of the logged-in user.
 
 ## 2. User Management
 
-The admin can create and delete users.
+The admin can add and delete user accounts.
 
-User fields:
+User details include:
 
 - Full name
 - Username
@@ -82,7 +82,7 @@ User fields:
 - Password
 - Confirm password
 
-Supported roles:
+Available roles:
 
 - Admin
 - Cashier
@@ -90,17 +90,17 @@ Supported roles:
 
 ## 3. Audit Logs
 
-Audit logs record important system activities.
+Audit logs help track important actions in the system.
 
-Examples:
+Examples of logged actions:
 
 - User created
 - User deleted
-- Inventory added
+- Stock added
 - Product updated
 - Stock updated
 
-Audit log fields:
+Audit log details include:
 
 - Timestamp
 - User
@@ -111,7 +111,7 @@ Audit log fields:
 
 The order module handles customer orders.
 
-Order fields:
+Order details include:
 
 - Customer name
 - Product name
@@ -126,13 +126,13 @@ Order statuses:
 - Ready
 - Completed
 
-Orders are created by the cashier or admin. When an order is completed and archived, it is moved to order records.
+The cashier or admin creates orders. After the kitchen finishes an order, it can be archived into order records.
 
 ## 5. Kitchen Queue
 
-The kitchen queue shows orders based on status.
+The kitchen queue helps kitchen staff organize orders.
 
-Sections:
+It has three sections:
 
 - Pending
 - In Progress
@@ -144,20 +144,20 @@ Kitchen actions:
 - Mark as Ready
 - Archive to Records
 
-When an order is archived, the system stores the order in the records table and removes it from the active orders list.
+After an order is archived, it is saved in the order records table and removed from the active order list.
 
 ## 6. Inventory Management
 
-Inventory management is inside the admin side.
+Inventory management is part of the admin side.
 
-The inventory module tracks two main groups:
+The inventory module has two main parts:
 
 - Stocks
 - LemonHaus Products
 
 ### Stocks
 
-Stocks are ingredients or supplies used to make LemonHaus products.
+Stocks are ingredients or supplies used in LemonHaus products.
 
 Examples:
 
@@ -167,7 +167,7 @@ Examples:
 - Cups
 - Straws
 
-Stock fields:
+Stock details include:
 
 - Stock name
 - Category
@@ -177,7 +177,7 @@ Stock fields:
 - Date received
 - Expiration date
 
-Expiration date is nullable. This allows non-expirable items like cups, lids, and other packaging materials.
+The expiration date is optional. This is useful for packaging items such as cups, lids, and straws because they do not expire.
 
 Stock status:
 
@@ -188,7 +188,7 @@ Stock status:
 
 ### LemonHaus Products
 
-Products are items sold by the cashier.
+LemonHaus products are the items sold by the cashier.
 
 Examples:
 
@@ -196,7 +196,7 @@ Examples:
 - Pink Lemonade
 - Lemon Float
 
-Product fields:
+Product details include:
 
 - Product name
 - Category
@@ -214,29 +214,29 @@ Product status:
 
 ## 7. Product and Stock Relationship
 
-A stock item can be used by multiple products.
+One stock item can be used by several products.
 
 Example:
 
-Lemon can be used by:
+Lemon can be used in:
 
 - Classic Lemonade
 - Pink Lemonade
 - Lemon Float
 
-Each product can define how much stock it uses per order.
+Each product can also have a set amount of stock used per order.
 
 Example:
 
 Classic Lemonade uses 1 lemon per order.
 
-This helps support automatic stock deduction when orders are created.
+This setup helps the system deduct stocks automatically when orders are created.
 
 ## 8. Sales Reports
 
 The reports module shows completed sales records.
 
-Displayed data:
+It shows:
 
 - Total revenue
 - Total orders
@@ -250,13 +250,13 @@ Reports can be filtered by:
 - Last 14 days
 - Last 30 days
 
-Reports can also be exported as CSV.
+Reports can also be exported as a CSV file.
 
 ## 9. Order Records
 
-Completed orders are saved in order records.
+Completed orders are saved as order records.
 
-Record fields:
+Record details include:
 
 - Record ID
 - Original order ID
@@ -268,11 +268,11 @@ Record fields:
 - Status
 - Completed at
 
-The dashboard and reports use order records to compute sales.
+The dashboard and reports use the order records table to calculate sales.
 
 ## 10. Route Naming Guide
 
-Use consistent route names to avoid route errors.
+Consistent route names help avoid route errors.
 
 ### Shared Dashboard
 
@@ -333,9 +333,7 @@ Example:
 Route [admin.stocks.create] not defined
 ```
 
-Fix:
-
-Make sure the route name in Blade matches the route name in `routes/web.php`.
+This happens when the route name in the Blade file does not match the route name in `routes/web.php`.
 
 Correct route:
 
@@ -344,7 +342,7 @@ Route::get('/admin/stocks/create', [AdminStockController::class, 'create'])
     ->name('admin.stocks.create');
 ```
 
-Correct Blade:
+Correct Blade code:
 
 ```blade
 <a href="{{ route('admin.stocks.create') }}">
@@ -352,19 +350,17 @@ Correct Blade:
 
 ### 403 Unauthorized
 
-Cause:
-
-The logged-in user is trying to access a route for another role.
+This happens when a user opens a page for another role.
 
 Example:
 
-Kitchen user opening:
+A kitchen user should not open:
 
 ```txt
 /admin/kitchen
 ```
 
-Correct kitchen URL:
+Correct kitchen queue URL:
 
 ```txt
 /kitchen/kitchen
@@ -372,13 +368,9 @@ Correct kitchen URL:
 
 ### PATCH method not supported
 
-Cause:
+This usually happens when a form submits to the wrong route or uses the wrong method.
 
-A form is submitting to the wrong URL or using GET instead of PATCH.
-
-Fix:
-
-Use:
+Use this inside PATCH forms:
 
 ```blade
 @csrf
@@ -460,7 +452,7 @@ Use:
 
 ## 13. Installation Guide
 
-1. Clone or open the project folder.
+1. Open the project folder.
 
 ```bash
 cd C:\laragon\www\LemonHaus\LemonHaus
@@ -490,7 +482,7 @@ copy .env.example .env
 php artisan key:generate
 ```
 
-6. Configure database in `.env`.
+6. Set the database in `.env`.
 
 Example:
 
@@ -506,13 +498,13 @@ DB_PASSWORD=
 php artisan migrate
 ```
 
-8. Run the server.
+8. Start the Laravel server.
 
 ```bash
 php artisan serve
 ```
 
-9. Open the system.
+9. Open the system in the browser.
 
 ```txt
 http://127.0.0.1:8000
@@ -520,7 +512,7 @@ http://127.0.0.1:8000
 
 ## 14. Cache Clearing Commands
 
-Run these when routes or views are changed:
+Run these commands after changing routes or views:
 
 ```bash
 php artisan route:clear
@@ -528,7 +520,7 @@ php artisan view:clear
 php artisan optimize:clear
 ```
 
-To check routes:
+To check available routes:
 
 ```bash
 php artisan route:list
@@ -536,7 +528,7 @@ php artisan route:list
 
 ## 15. Recommended Improvements
 
-Future improvements may include:
+Possible improvements:
 
 - Automatic stock deduction based on product recipe
 - Sales report charts
@@ -566,4 +558,4 @@ LemonHaus Management System
 
 ## Status
 
-Development version.
+Development version
