@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @php
     $orders = $orders ?? \App\Models\Order::latest()->get();
 
@@ -7,20 +8,22 @@
         ->orderBy('name')
         ->get();
 @endphp
+
 @section('content')
 <div class="min-h-screen flex bg-[#f6f7fb]">
 
     @include('admin.partials.sidebar')
 
-    <main class="flex-1 px-10 py-10 relative">
+    <main class="flex-1 w-full px-4 sm:px-6 lg:px-10 pt-[96px] lg:pt-10 pb-10 overflow-x-hidden">
         <div class="max-w-[1440px] mx-auto">
 
-            <div class="flex justify-between items-start mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
                 <div>
-                    <h1 class="text-[38px] font-extrabold text-[#0f172a]">
+                    <h1 class="text-[30px] sm:text-[38px] font-extrabold text-[#0f172a]">
                         Order Management
                     </h1>
-                    <p class="text-[18px] text-[#64748b] mt-2">
+
+                    <p class="text-[15px] sm:text-[18px] text-[#64748b] mt-2">
                         Full control for creating, updating, and deleting cashier orders
                     </p>
                 </div>
@@ -40,8 +43,8 @@
                 </div>
             @endif
 
-            <div class="bg-white rounded-[24px] border border-[#e9edf3] p-7 mb-8 shadow-sm">
-                <h2 class="text-[24px] font-bold text-[#0f172a] mb-6">
+            <div class="bg-white rounded-[24px] border border-[#e9edf3] p-5 sm:p-7 mb-8 shadow-sm">
+                <h2 class="text-[21px] sm:text-[24px] font-bold text-[#0f172a] mb-6">
                     New Order
                 </h2>
 
@@ -53,12 +56,12 @@
                            value="{{ old('customer_name') }}"
                            placeholder="Customer Name"
                            required
-                           class="border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[16px] w-full focus:outline-none focus:ring-2 focus:ring-[#f4c400]">
+                           class="border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[15px] sm:text-[16px] w-full focus:outline-none focus:ring-2 focus:ring-[#f4c400]">
 
                     <div id="product-container" class="space-y-4">
-                        <div class="product-item grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_auto] gap-4 items-center">
+                        <div class="product-item grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1.5fr_1fr_1fr_auto] gap-4 items-center">
                             <select name="product_id[]"
-                                    class="product-select border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[16px] w-full focus:outline-none focus:ring-2 focus:ring-[#f4c400]"
+                                    class="product-select border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[15px] sm:text-[16px] w-full focus:outline-none focus:ring-2 focus:ring-[#f4c400]"
                                     required>
                                 <option value="">Select Product</option>
 
@@ -72,7 +75,7 @@
                             </select>
 
                             <input type="text"
-                                   class="price-display border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[16px] w-full bg-slate-50 text-[#64748b]"
+                                   class="price-display border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[15px] sm:text-[16px] w-full bg-slate-50 text-[#64748b]"
                                    placeholder="Price"
                                    readonly>
 
@@ -81,7 +84,7 @@
                                    placeholder="Quantity"
                                    min="1"
                                    required
-                                   class="quantity-input border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[16px] w-full focus:outline-none focus:ring-2 focus:ring-[#f4c400]">
+                                   class="quantity-input border border-[#e5e7eb] rounded-2xl px-5 py-4 text-[15px] sm:text-[16px] w-full focus:outline-none focus:ring-2 focus:ring-[#f4c400]">
 
                             <button type="button"
                                     class="remove-product hidden bg-red-100 text-red-600 font-bold px-5 py-4 rounded-2xl hover:bg-red-200 transition">
@@ -90,31 +93,43 @@
                         </div>
                     </div>
 
-                    <button type="button"
-                            id="add-product"
-                            class="text-[#0f172a] bg-[#fff7cc] border border-[#f4c400]/40 px-5 py-3 rounded-2xl font-bold hover:bg-[#f4c400] transition">
-                        + Add Another Product
-                    </button>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button type="button"
+                                id="add-product"
+                                class="w-full sm:w-auto text-[#0f172a] bg-[#fff7cc] border border-[#f4c400]/40 px-5 py-3 rounded-2xl font-bold hover:bg-[#f4c400] transition">
+                            + Add Another Product
+                        </button>
 
-                    <button type="button"
-                            onclick="openCreateModal()"
-                            class="bg-[#0f172a] hover:bg-[#1e293b] text-white font-bold px-7 py-4 rounded-2xl text-[17px] w-full mt-4 transition shadow-md">
-                        Create Order
-                    </button>
+                        <button type="button"
+                                onclick="openCreateModal()"
+                                class="w-full sm:flex-1 bg-[#0f172a] hover:bg-[#1e293b] text-white font-bold px-7 py-4 rounded-2xl text-[16px] sm:text-[17px] transition shadow-md">
+                            Create Order
+                        </button>
+                    </div>
                 </form>
             </div>
 
             <div class="bg-white rounded-[24px] border border-[#e9edf3] overflow-hidden shadow-sm">
+                <div class="px-5 sm:px-8 py-5 sm:py-6 border-b border-[#eef2f7]">
+                    <h2 class="text-[21px] sm:text-[24px] font-bold text-[#0f172a]">
+                        Active Orders
+                    </h2>
+
+                    <p class="text-[14px] sm:text-[16px] text-[#64748b] mt-1">
+                        Scroll sideways on small screens to view all columns.
+                    </p>
+                </div>
+
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
+                    <table class="w-full min-w-[900px] text-left">
                         <thead class="bg-[#f8fafc] text-[#64748b]">
                             <tr>
-                                <th class="px-8 py-6 font-semibold">ORDER ID</th>
-                                <th class="px-8 py-6 font-semibold">CUSTOMER</th>
-                                <th class="px-8 py-6 font-semibold">ITEM</th>
-                                <th class="px-8 py-6 font-semibold">TOTAL</th>
-                                <th class="px-8 py-6 font-semibold">STATUS</th>
-                                <th class="px-8 py-6 font-semibold text-right">ACTIONS</th>
+                                <th class="px-6 sm:px-8 py-5 sm:py-6 font-semibold">ORDER ID</th>
+                                <th class="px-6 sm:px-8 py-5 sm:py-6 font-semibold">CUSTOMER</th>
+                                <th class="px-6 sm:px-8 py-5 sm:py-6 font-semibold">ITEM</th>
+                                <th class="px-6 sm:px-8 py-5 sm:py-6 font-semibold">TOTAL</th>
+                                <th class="px-6 sm:px-8 py-5 sm:py-6 font-semibold">STATUS</th>
+                                <th class="px-6 sm:px-8 py-5 sm:py-6 font-semibold text-right">ACTIONS</th>
                             </tr>
                         </thead>
 
@@ -125,23 +140,23 @@
                                 @endphp
 
                                 <tr class="hover:bg-slate-50 transition-colors">
-                                    <td class="px-8 py-5 font-bold text-[#0f172a]">
+                                    <td class="px-6 sm:px-8 py-5 font-bold text-[#0f172a] whitespace-nowrap">
                                         #{{ str_pad($order->id, 2, '0', STR_PAD_LEFT) }}
                                     </td>
 
-                                    <td class="px-8 py-5 text-[#475569] font-medium">
+                                    <td class="px-6 sm:px-8 py-5 text-[#475569] font-medium whitespace-nowrap">
                                         {{ $order->customer_name }}
                                     </td>
 
-                                    <td class="px-8 py-5 text-[#0f172a] font-medium">
+                                    <td class="px-6 sm:px-8 py-5 text-[#0f172a] font-medium">
                                         {{ $order->quantity }}x {{ $order->product_name }}
                                     </td>
 
-                                    <td class="px-8 py-5 font-bold text-[#166534]">
+                                    <td class="px-6 sm:px-8 py-5 font-bold text-[#166534] whitespace-nowrap">
                                         ₱{{ number_format($total, 2) }}
                                     </td>
 
-                                    <td class="px-8 py-5">
+                                    <td class="px-6 sm:px-8 py-5 whitespace-nowrap">
                                         <span class="px-4 py-1.5 rounded-full text-[13px]
                                             @if($order->status == 'pending') bg-yellow-100 text-yellow-700
                                             @elseif($order->status == 'in_progress') bg-blue-100 text-blue-700
@@ -153,13 +168,11 @@
                                         </span>
                                     </td>
 
-                                    <td class="px-8 py-5 text-right">
+                                    <td class="px-6 sm:px-8 py-5 text-right whitespace-nowrap">
                                         <div class="flex justify-end items-center gap-3">
                                             <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
                                                 @csrf
                                                 @method('PATCH')
-
-                                                
                                             </form>
 
                                             <form id="delete-form-{{ $order->id }}" action="{{ route('admin.orders.destroy', $order->id) }}" method="POST">
@@ -192,53 +205,53 @@
         </div>
     </main>
 
-    <div id="create-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-[#0f172a]/60 backdrop-blur-sm transition-opacity duration-300 opacity-0">
-        <div id="create-modal-content" class="bg-white rounded-[32px] p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300">
-            <h3 class="text-[26px] font-extrabold text-[#0f172a] text-center mb-3">
+    <div id="create-modal" class="fixed inset-0 z-[120] hidden flex items-center justify-center bg-[#0f172a]/60 backdrop-blur-sm transition-opacity duration-300 opacity-0 px-4">
+        <div id="create-modal-content" class="bg-white rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 max-w-md w-full shadow-2xl transform scale-95 transition-transform duration-300">
+            <h3 class="text-[22px] sm:text-[26px] font-extrabold text-[#0f172a] text-center mb-3">
                 Confirm Order
             </h3>
 
-            <p class="text-[16px] text-[#64748b] text-center mb-8 px-4">
+            <p class="text-[15px] sm:text-[16px] text-[#64748b] text-center mb-8 px-2 sm:px-4">
                 Are you sure you want to create this order?
             </p>
 
-            <div class="flex gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
                 <button type="button"
                         onclick="closeCreateModal()"
-                        class="flex-1 py-4 rounded-2xl font-bold text-[#64748b] bg-slate-100 hover:bg-slate-200 transition text-[17px]">
+                        class="flex-1 py-4 rounded-2xl font-bold text-[#64748b] bg-slate-100 hover:bg-slate-200 transition text-[16px] sm:text-[17px]">
                     Cancel
                 </button>
 
                 <button type="button"
                         onclick="submitCreateForm()"
-                        class="flex-1 py-4 rounded-2xl font-bold text-slate-900 bg-[#f4c400] hover:bg-[#eab308] shadow-md transition text-[17px]">
+                        class="flex-1 py-4 rounded-2xl font-bold text-slate-900 bg-[#f4c400] hover:bg-[#eab308] shadow-md transition text-[16px] sm:text-[17px]">
                     Yes, Create
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="delete-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-[#0f172a]/70 backdrop-blur-sm transition-opacity duration-300 opacity-0">
-        <div id="delete-modal-content" class="bg-white rounded-[32px] p-8 max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300">
-            <h3 class="text-[26px] font-extrabold text-[#0f172a] text-center mb-3">
+    <div id="delete-modal" class="fixed inset-0 z-[120] hidden flex items-center justify-center bg-[#0f172a]/70 backdrop-blur-sm transition-opacity duration-300 opacity-0 px-4">
+        <div id="delete-modal-content" class="bg-white rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 max-w-md w-full shadow-2xl transform scale-95 transition-transform duration-300">
+            <h3 class="text-[22px] sm:text-[26px] font-extrabold text-[#0f172a] text-center mb-3">
                 Delete Order?
             </h3>
 
-            <p class="text-[16px] text-[#64748b] text-center mb-8 px-4">
+            <p class="text-[15px] sm:text-[16px] text-[#64748b] text-center mb-8 px-2 sm:px-4">
                 Are you sure you want to delete the order for
                 <span id="delete-customer-name" class="font-bold text-slate-800"></span>?
             </p>
 
-            <div class="flex gap-4">
+            <div class="flex flex-col sm:flex-row gap-4">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="flex-1 py-4 rounded-2xl font-bold text-[#64748b] bg-slate-100 hover:bg-slate-200 transition text-[17px]">
+                        class="flex-1 py-4 rounded-2xl font-bold text-[#64748b] bg-slate-100 hover:bg-slate-200 transition text-[16px] sm:text-[17px]">
                     Cancel
                 </button>
 
                 <button type="button"
                         onclick="submitDeleteForm()"
-                        class="flex-1 py-4 rounded-2xl font-bold text-white bg-red-500 hover:bg-red-600 shadow-md transition text-[17px]">
+                        class="flex-1 py-4 rounded-2xl font-bold text-white bg-red-500 hover:bg-red-600 shadow-md transition text-[16px] sm:text-[17px]">
                     Yes, Delete
                 </button>
             </div>
