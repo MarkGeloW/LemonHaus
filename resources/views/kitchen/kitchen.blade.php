@@ -88,7 +88,23 @@
                                     <span class="text-[14px] text-[#94a3b8]">{{ $order->updated_at->format('h:i A') }}</span>
                                 </div>
                                 <p class="text-[18px] text-[#475569] mb-4">{{ $order->customer_name }}</p>
-                                <p class="text-[18px] font-semibold text-[#0f172a]">{{ $order->quantity }}x {{ $order->product_name }}</p>
+                               <p class="text-[18px] font-semibold text-[#0f172a] mb-5">
+    {{ $order->quantity }}x {{ $order->product_name }}
+</p>
+
+<p class="text-[16px] font-bold text-[#166534] mb-5">
+    Total: ₱{{ number_format($order->price * $order->quantity, 2) }}
+</p>
+<form id="archive-form-{{ $order->id }}" action="{{ route('kitchen.orders.complete', $order->id) }}" method="POST">
+    @csrf
+    @method('PATCH')
+
+    <button type="button"
+            onclick="confirmArchive('{{ $order->id }}')"
+            class="w-full rounded-2xl bg-[#0f172a] py-4 text-[18px] font-bold text-white hover:bg-[#1e293b] transition shadow-sm">
+        Archive to Records
+    </button>
+</form>
                             </div>
                         @empty
                             <div class="h-[155px] rounded-[22px] border-2 border-dashed border-[#d7dde7] flex items-center justify-center text-[18px] text-[#94a3b8]">No orders</div>
@@ -129,16 +145,106 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(session('archive_success'))
+    <script>
+        Swal.fire({
+            title: 'Recorded!',
+            text: "{{ session('archive_success') }}",
+            icon: 'success',
+            confirmButtonColor: '#0f172a',
+            confirmButtonText: 'OK'
+        });
+    </script>
+@endif
 
 <script>
     const acceptModal = document.getElementById('accept-modal'), acceptModalContent = document.getElementById('accept-modal-content'); let currentAcceptFormId = null;
-    function openAcceptModal(orderId, orderNum, customerName) { currentAcceptFormId = 'accept-form-' + orderId; document.getElementById('accept-order-num').innerText = '#' + orderNum; document.getElementById('accept-customer-name').innerText = customerName; acceptModal.classList.remove('hidden'); setTimeout(() => { acceptModal.classList.remove('opacity-0'); acceptModal.classList.add('opacity-100'); acceptModalContent.classList.remove('scale-95'); acceptModalContent.classList.add('scale-100'); }, 10); }
-    function closeAcceptModal() { acceptModal.classList.remove('opacity-100'); acceptModal.classList.add('opacity-0'); acceptModalContent.classList.remove('scale-100'); acceptModalContent.classList.add('scale-95'); setTimeout(() => { acceptModal.classList.add('hidden'); }, 300); currentAcceptFormId = null; }
-    function submitAcceptForm() { if(currentAcceptFormId) document.getElementById(currentAcceptFormId).submit(); }
+
+    function openAcceptModal(orderId, orderNum, customerName) {
+        currentAcceptFormId = 'accept-form-' + orderId;
+        document.getElementById('accept-order-num').innerText = '#' + orderNum;
+        document.getElementById('accept-customer-name').innerText = customerName;
+        acceptModal.classList.remove('hidden');
+        setTimeout(() => {
+            acceptModal.classList.remove('opacity-0');
+            acceptModal.classList.add('opacity-100');
+            acceptModalContent.classList.remove('scale-95');
+            acceptModalContent.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeAcceptModal() {
+        acceptModal.classList.remove('opacity-100');
+        acceptModal.classList.add('opacity-0');
+        acceptModalContent.classList.remove('scale-100');
+        acceptModalContent.classList.add('scale-95');
+        setTimeout(() => {
+            acceptModal.classList.add('hidden');
+        }, 300);
+        currentAcceptFormId = null;
+    }
+
+    function submitAcceptForm() {
+        if (currentAcceptFormId) {
+            document.getElementById(currentAcceptFormId).submit();
+        }
+    }
 
     const readyModal = document.getElementById('ready-modal'), readyModalContent = document.getElementById('ready-modal-content'); let currentReadyFormId = null;
-    function openReadyModal(orderId, orderNum, customerName) { currentReadyFormId = 'ready-form-' + orderId; document.getElementById('ready-order-num').innerText = '#' + orderNum; document.getElementById('ready-customer-name').innerText = customerName; readyModal.classList.remove('hidden'); setTimeout(() => { readyModal.classList.remove('opacity-0'); readyModal.classList.add('opacity-100'); readyModalContent.classList.remove('scale-95'); readyModalContent.classList.add('scale-100'); }, 10); }
-    function closeReadyModal() { readyModal.classList.remove('opacity-100'); readyModal.classList.add('opacity-0'); readyModalContent.classList.remove('scale-100'); readyModalContent.classList.add('scale-95'); setTimeout(() => { readyModal.classList.add('hidden'); }, 300); currentReadyFormId = null; }
-    function submitReadyForm() { if(currentReadyFormId) document.getElementById(currentReadyFormId).submit(); }
+
+    function openReadyModal(orderId, orderNum, customerName) {
+        currentReadyFormId = 'ready-form-' + orderId;
+        document.getElementById('ready-order-num').innerText = '#' + orderNum;
+        document.getElementById('ready-customer-name').innerText = customerName;
+        readyModal.classList.remove('hidden');
+        setTimeout(() => {
+            readyModal.classList.remove('opacity-0');
+            readyModal.classList.add('opacity-100');
+            readyModalContent.classList.remove('scale-95');
+            readyModalContent.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeReadyModal() {
+        readyModal.classList.remove('opacity-100');
+        readyModal.classList.add('opacity-0');
+        readyModalContent.classList.remove('scale-100');
+        readyModalContent.classList.add('scale-95');
+        setTimeout(() => {
+            readyModal.classList.add('hidden');
+        }, 300);
+        currentReadyFormId = null;
+    }
+
+    function submitReadyForm() {
+        if (currentReadyFormId) {
+            document.getElementById(currentReadyFormId).submit();
+        }
+    }
+
+  function confirmArchive(orderId) {
+    Swal.fire({
+        title: 'Archive this order?',
+        text: 'This will save the order into records and remove it from the kitchen display.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0f172a',
+        cancelButtonColor: '#94a3b8',
+        confirmButtonText: 'Yes, archive',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('archive-form-' + orderId).submit();
+        }
+    });
+}
+
+
+    
 </script>
+
 @endsection

@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
-    use HasFactory;
-
-    // These fields match your form inputs
     protected $fillable = [
         'name',
         'category',
@@ -20,9 +16,16 @@ class Inventory extends Model
         'expiration_date',
     ];
 
-    // This ensures Laravel treats these as Date objects
     protected $casts = [
         'date_added' => 'date',
         'expiration_date' => 'date',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'inventory_product')
+            ->withPivot('quantity_used_per_order')
+            ->withTimestamps();
+    }
+    
 }

@@ -1,4 +1,4 @@
-resources/views/cashier/partials/sidebar.blade.php
+
 @if(auth()->check() && auth()->user()->role === 'cashier')
 <aside class="w-[285px] min-h-screen bg-white border-r border-[#e5e7eb] flex flex-col justify-between shrink-0">
 
@@ -15,26 +15,23 @@ resources/views/cashier/partials/sidebar.blade.php
 
         <!-- Menu -->
         <nav class="px-4 py-6 space-y-3">
-            <a href="{{ route('cashier.dashboard') }}" class="sidebar-link {{ request()->routeIs('cashier.dashboard') ? 'active-sidebar' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h6v6H4V5Zm10 0h6v6h-6V5ZM4 15h6v6H4v-6Zm10-3h6v9h-6v-9Z"/>
-                </svg>
-                <span>Dashboard</span>
-            </a>
+           <a href="{{ route('cashier.dashboard') }}" class="sidebar-link {{ request()->routeIs('cashier.dashboard') ? 'active-sidebar' : '' }}">
+    <span>Dashboard</span>
+</a>
 
-            <a href="{{ route('cashier.orders') }}" class="sidebar-link {{ request()->routeIs('cashier.orders') ? 'active-sidebar' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V5a4 4 0 1 1 8 0v2m-9 0h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/>
-                </svg>
-                <span>Order Management</span>
-            </a>
+           <a href="{{ route('cashier.orders.index') }}" class="sidebar-link {{ request()->routeIs('cashier.orders.index') ? 'active-sidebar' : '' }}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V5a4 4 0 1 1 8 0v2m-9 0h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/>
+    </svg>
+    <span>Order Management</span>
+</a>
 
-            <a href="{{ route('cashier.kitchen') }}" class="sidebar-link {{ request()->routeIs('cashier.kitchen') ? 'active-sidebar' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M8 14h8a4 4 0 1 0-1.17-7.83A5 5 0 0 0 5.1 7.5 3.5 3.5 0 0 0 8 14Z"/>
-                </svg>
-                <span>Kitchen Queue</span>
-            </a>
+           <a href="{{ route('cashier.kitchen') }}" class="sidebar-link {{ request()->routeIs('cashier.kitchen') ? 'active-sidebar' : '' }}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M8 14h8a4 4 0 1 0-1.17-7.83A5 5 0 0 0 5.1 7.5 3.5 3.5 0 0 0 8 14Z"/>
+    </svg>
+    <span>Kitchen Queue</span>
+</a>
         </nav>
     </div>
 

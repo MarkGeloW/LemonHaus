@@ -7,7 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CashierOrderController extends Controller
+class AdminOrderController extends Controller
 {
     public function index()
     {
@@ -18,7 +18,7 @@ class CashierOrderController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('cashier.orders', compact('orders', 'products'));
+        return view('admin.orders', compact('orders', 'products'));
     }
 
     public function store(Request $request)
@@ -41,18 +41,6 @@ class CashierOrderController extends Controller
                         throw new \Exception($product->name . ' does not have enough product stock.');
                     }
 
-                    $inventoryItems = $product->inventories()
-                        ->lockForUpdate()
-                        ->get();
-
-                    foreach ($inventoryItems as $item) {
-                        $deductQty = $item->pivot->quantity_used_per_order * $quantity;
-
-                        if ($item->stock_level < $deductQty) {
-                            throw new \Exception($item->name . ' stock is not enough for ' . $product->name . '.');
-                        }
-                    }
-
                     Order::create([
                         'customer_name' => $request->customer_name,
                         'product_name' => $product->name,
@@ -62,22 +50,34 @@ class CashierOrderController extends Controller
                     ]);
 
                     $product->decrement('stock', $quantity);
-
-                    foreach ($inventoryItems as $item) {
-                        $deductQty = $item->pivot->quantity_used_per_order * $quantity;
-                        $item->decrement('stock_level', $deductQty);
-                    }
                 }
             });
 
             return redirect()
-                ->route('cashier.orders.index')
-                ->with('success', 'Order created successfully. Product and stock items deducted.');
+                ->route('admin.orders.index')
+                ->with('success', 'Order created successfully.');
         } catch (\Exception $e) {
             return back()
                 ->withInput()
                 ->withErrors(['stock' => $e->getMessage()]);
         }
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,in_progress,ready,completed',
+        ]);
+
+        $order = Order::findOrFail($id);
+
+        $order->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()
+            ->route('admin.orders.index')
+            ->with('success', 'Order status updated successfully.');
     }
 
     public function destroy($id)
@@ -86,23 +86,7 @@ class CashierOrderController extends Controller
         $order->delete();
 
         return redirect()
-            ->route('cashier.orders.index')
+            ->route('admin.orders.index')
             ->with('success', 'Order deleted successfully.');
     }
-
-
-    public function kitchen()
-{
-    $pendingOrders = Order::where('status', 'pending')->latest()->get();
-
-    $inProgressOrders = Order::where('status', 'in_progress')->latest()->get();
-
-    $readyOrders = Order::where('status', 'ready')->latest()->get();
-
-    return view('cashier.kitchen', compact(
-        'pendingOrders',
-        'inProgressOrders',
-        'readyOrders'
-    ));
-}
 }

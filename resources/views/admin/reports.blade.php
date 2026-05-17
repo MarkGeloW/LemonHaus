@@ -47,7 +47,7 @@
             <div class="grid grid-cols-3 gap-5 mb-7">
                 <div class="bg-white rounded-[22px] border border-[#e9edf3] shadow-sm p-7">
                     <p class="text-[16px] text-[#64748b] font-medium">Total Revenue</p>
-                    <h2 class="text-[28px] font-extrabold text-[#0f172a] mt-3">${{ number_format($totalRevenue, 2) }}</h2>
+                    <h2 class="text-[28px] font-extrabold text-[#0f172a] mt-3">₱{{ number_format($totalRevenue, 2) }}</h2>
                 </div>
 
                 <div class="bg-white rounded-[22px] border border-[#e9edf3] shadow-sm p-7">
@@ -57,7 +57,7 @@
 
                 <div class="bg-white rounded-[22px] border border-[#e9edf3] shadow-sm p-7">
                     <p class="text-[16px] text-[#64748b] font-medium">Avg. Order Value</p>
-                    <h2 class="text-[28px] font-extrabold text-[#0f172a] mt-3">${{ number_format($avgOrderValue, 2) }}</h2>
+                    <h2 class="text-[28px] font-extrabold text-[#0f172a] mt-3">₱{{ number_format($avgOrderValue, 2) }}</h2>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
 
                         <!-- Y-Axis Lines -->
                         <div class="absolute inset-0 flex flex-col justify-between text-[#94a3b8] text-[13px] pointer-events-none">
-                            <div class="border-b border-dashed border-[#d1d5db] pb-1 pl-12">${{ number_format($topAxis) }}</div>
+                            <div class="border-b border-dashed border-[#d1d5db] pb-1 pl-12">₱{{ number_format($topAxis) }}</div>
                             <div class="border-b border-dashed border-[#d1d5db] pb-1 pl-12">${{ number_format($topAxis * 0.75) }}</div>
                             <div class="border-b border-dashed border-[#d1d5db] pb-1 pl-12">${{ number_format($topAxis * 0.50) }}</div>
                             <div class="border-b border-dashed border-[#d1d5db] pb-1 pl-12">${{ number_format($topAxis * 0.25) }}</div>
@@ -91,7 +91,7 @@
                             @foreach($weeklySalesData as $bar)
                                 <div class="flex flex-col items-center justify-end gap-3 group relative h-full flex-1">
                                     <div class="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-[#0f172a] text-white text-xs py-1.5 px-3 rounded-lg pointer-events-none whitespace-nowrap shadow-lg z-10">
-                                        {{ $bar['day'] }}: ${{ number_format($bar['total'], 2) }}
+                                        {{ $bar['day'] }}: ₱{{ number_format($bar['total'], 2) }}
                                     </div>
                                     <div style="height: {{ ($bar['total'] / $topAxis) * 270 }}px; min-height: 4px;" 
                                          class="{{ $barWidthClass }} bg-[#f4c400] rounded-[4px] transition-all duration-300 hover:bg-[#eab308] cursor-pointer">

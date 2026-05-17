@@ -208,31 +208,62 @@
                 </div>
             @endif
 
-            @if($tab === 'logs')
-                <div class="overflow-x-auto">
-                    <div class="overflow-hidden rounded-[24px] border border-[#e9edf3] bg-white shadow-sm">
-                        <table class="w-full text-left">
-                            <thead class="bg-[#f8fafc] text-[#64748b]">
-                                <tr>
-                                    <th class="px-7 py-6 text-[16px] font-semibold">Timestamp</th>
-                                    <th class="px-7 py-6 text-[16px] font-semibold">User</th>
-                                    <th class="px-7 py-6 text-[16px] font-semibold">Action</th>
-                                    <th class="px-7 py-6 text-[16px] font-semibold">Details</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-[#eef2f7]">
-                                <!-- You can replace this with a dynamic $auditLogs loop later -->
-                                <tr>
-                                    <td class="px-7 py-5 text-[16px] text-[#475569]">Apr 19, 2026 8:41 PM</td>
-                                    <td class="px-7 py-5 text-[16px] text-[#0f172a] font-medium">Admin User</td>
-                                    <td class="px-7 py-5 text-[16px] text-[#0f172a]">Created User</td>
-                                    <td class="px-7 py-5 text-[16px] text-[#475569]">Added Sarah Cashier account</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            @endif
+      @if($tab === 'logs')
+    <div class="overflow-x-auto">
+        <div class="overflow-hidden rounded-[24px] border border-[#e9edf3] bg-white shadow-sm">
+            <table class="w-full text-left">
+                <thead class="bg-[#f8fafc] text-[#64748b]">
+                    <tr>
+                        <th class="px-7 py-6 text-[16px] font-semibold">Timestamp</th>
+                        <th class="px-7 py-6 text-[16px] font-semibold">User</th>
+                        <th class="px-7 py-6 text-[16px] font-semibold">Action</th>
+                        <th class="px-7 py-6 text-[16px] font-semibold">Details</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-[#eef2f7]">
+                    @forelse($auditLogs as $log)
+                        <tr>
+                            <td class="px-7 py-5 text-[16px] text-[#475569]">
+                                {{ $log->created_at->format('M d, Y h:i A') }}
+                            </td>
+
+                            <td class="px-7 py-5 text-[16px] text-[#0f172a] font-medium">
+                                {{ $log->user_name ?? 'System' }}
+                            </td>
+
+                            <td class="px-7 py-5">
+                                <span class="inline-flex rounded-full px-4 py-1 text-[14px] font-semibold
+                                    @if(str_contains(strtolower($log->action), 'created'))
+                                        bg-green-100 text-green-700
+                                    @elseif(str_contains(strtolower($log->action), 'deleted'))
+                                        bg-red-100 text-red-700
+                                    @elseif(str_contains(strtolower($log->action), 'updated'))
+                                        bg-blue-100 text-blue-700
+                                    @else
+                                        bg-gray-100 text-gray-700
+                                    @endif
+                                ">
+                                    {{ $log->action }}
+                                </span>
+                            </td>
+
+                            <td class="px-7 py-5 text-[16px] text-[#475569]">
+                                {{ $log->details }}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-7 py-10 text-center text-[#64748b]">
+                                No audit logs yet.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endif
 
         </div>
     </main>

@@ -21,26 +21,25 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('orders.index') }}" class="sidebar-link {{ request()->routeIs('orders.index') ? 'active-sidebar' : '' }}">
+           <a href="{{ route('admin.orders.index') }}" class="sidebar-link {{ request()->routeIs('admin.orders.index') ? 'active-sidebar' : '' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V5a4 4 0 1 1 8 0v2m-9 0h10a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/>
                 </svg>
                 <span>Order Management</span>
             </a>
 
-            <a href="{{ route('kitchen.index') }}" class="sidebar-link {{ request()->routeIs('kitchen.index') ? 'active-sidebar' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M8 14h8a4 4 0 1 0-1.17-7.83A5 5 0 0 0 5.1 7.5 3.5 3.5 0 0 0 8 14Z"/>
-                </svg>
-                <span>Kitchen Queue</span>
-            </a>
-
-            <a href="{{ route('inventory.index') }}" class="sidebar-link {{ request()->routeIs('inventory.index') ? 'active-sidebar' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m7.5 4.5 9 5.25v10.5l-9-5.25V4.5Zm0 0L3 7.125v10.5l4.5-2.625m9-5.25L12 12.375m0 0L3 7.125"/>
-                </svg>
-                <span>Inventory</span>
-            </a>
+<a href="{{ url('/admin/kitchen') }}" class="sidebar-link {{ request()->is('admin/kitchen') ? 'active-sidebar' : '' }}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 18h6M10 22h4M8 14h8a4 4 0 1 0-1.17-7.83A5 5 0 0 0 5.1 7.5 3.5 3.5 0 0 0 8 14Z"/>
+    </svg>
+    <span>Kitchen Queue</span>
+</a>
+          <a href="{{ route('admin.inventory') }}" class="sidebar-link {{ request()->routeIs('admin.inventory') ? 'active-sidebar' : '' }}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m7.5 4.5 9 5.25v10.5l-9-5.25V4.5Zm0 0L3 7.125v10.5l4.5-2.625m9-5.25L12 12.375m0 0L3 7.125"/>
+    </svg>
+    <span>Inventory</span>
+</a>
 
             <a href="{{ route('reports.index') }}" class="sidebar-link {{ request()->routeIs('reports.index') ? 'active-sidebar' : '' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
