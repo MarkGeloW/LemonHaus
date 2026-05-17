@@ -1,58 +1,561 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LemonHaus Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+LemonHaus Management System is a Laravel-based system made for managing the daily operations of LemonHaus. It covers order taking, kitchen queue monitoring, product and stock tracking, sales records, reports, and user activity logs.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The system has three user roles: admin, cashier, and kitchen staff. Inventory is managed by the admin, so there is no separate inventory staff role.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Main Roles
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Admin
 
-## Learning Laravel
+The admin controls and monitors the main parts of the system.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+The admin can:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- View the dashboard
+- Manage users
+- View audit logs
+- Manage cashier orders
+- View the kitchen queue
+- Manage inventory
+- Add, edit, and delete LemonHaus products
+- Add, edit, and delete stocks
+- View sales reports
+- Export reports
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Cashier
 
-## Agentic Development
+The cashier handles customer orders.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+The cashier can:
 
-```bash
-composer require laravel/boost --dev
+- View the dashboard
+- Create customer orders
+- Choose available products from a dropdown list
+- View the order list
+- Delete orders when needed
+- View the kitchen queue status
 
-php artisan boost:install
+### Kitchen Staff
+
+The kitchen staff handles order preparation.
+
+The kitchen staff can:
+
+- View the dashboard
+- View the kitchen queue
+- Accept pending orders
+- Mark orders as ready
+- Archive completed orders to records
+- View inventory status
+
+## System Modules
+
+## 1. Dashboard
+
+The dashboard gives a quick view of what is happening in the system.
+
+It shows:
+
+- Sales from completed orders
+- Active orders
+- Low stock items
+- Average preparation time
+- Weekly sales chart
+- Low stock alerts
+- Recent activity
+
+The same dashboard is used by the admin, cashier, and kitchen staff. The sidebar changes depending on the role of the logged-in user.
+
+## 2. User Management
+
+The admin can add and delete user accounts.
+
+User details include:
+
+- Full name
+- Username
+- Email
+- Role
+- Password
+- Confirm password
+
+Available roles:
+
+- Admin
+- Cashier
+- Kitchen
+
+## 3. Audit Logs
+
+Audit logs help track important actions in the system.
+
+Examples of logged actions:
+
+- User created
+- User deleted
+- Stock added
+- Product updated
+- Stock updated
+
+Audit log details include:
+
+- Timestamp
+- User
+- Action
+- Details
+
+## 4. Order Management
+
+The order module handles customer orders.
+
+Order details include:
+
+- Customer name
+- Product name
+- Price
+- Quantity
+- Status
+
+Order statuses:
+
+- Pending
+- In progress
+- Ready
+- Completed
+
+The cashier or admin creates orders. After the kitchen finishes an order, it can be archived into order records.
+
+## 5. Kitchen Queue
+
+The kitchen queue helps kitchen staff organize orders.
+
+It has three sections:
+
+- Pending
+- In Progress
+- Ready for Pickup
+
+Kitchen actions:
+
+- Accept Order
+- Mark as Ready
+- Archive to Records
+
+After an order is archived, it is saved in the order records table and removed from the active order list.
+
+## 6. Inventory Management
+
+Inventory management is part of the admin side.
+
+The inventory module has two main parts:
+
+- Stocks
+- LemonHaus Products
+
+### Stocks
+
+Stocks are ingredients or supplies used in LemonHaus products.
+
+Examples:
+
+- Lemon
+- Sugar
+- Syrup
+- Cups
+- Straws
+
+Stock details include:
+
+- Stock name
+- Category
+- Stock level
+- Unit
+- Minimum stock
+- Date received
+- Expiration date
+
+The expiration date is optional. This is useful for packaging items such as cups, lids, and straws because they do not expire.
+
+Stock status:
+
+- Good
+- Low Stock
+- Out of Stock
+- Expired
+
+### LemonHaus Products
+
+LemonHaus products are the items sold by the cashier.
+
+Examples:
+
+- Classic Lemonade
+- Pink Lemonade
+- Lemon Float
+
+Product details include:
+
+- Product name
+- Category
+- Description
+- Price
+- Stock
+- Status
+
+Product status:
+
+- Available
+- Unavailable
+- Low Stock
+- Out of Stock
+
+## 7. Product and Stock Relationship
+
+One stock item can be used by several products.
+
+Example:
+
+Lemon can be used in:
+
+- Classic Lemonade
+- Pink Lemonade
+- Lemon Float
+
+Each product can also have a set amount of stock used per order.
+
+Example:
+
+Classic Lemonade uses 1 lemon per order.
+
+This setup helps the system deduct stocks automatically when orders are created.
+
+## 8. Sales Reports
+
+The reports module shows completed sales records.
+
+It shows:
+
+- Total revenue
+- Total orders
+- Average order value
+- Weekly sales
+- Top selling items
+
+Reports can be filtered by:
+
+- Last 7 days
+- Last 14 days
+- Last 30 days
+
+Reports can also be exported as a CSV file.
+
+## 9. Order Records
+
+Completed orders are saved as order records.
+
+Record details include:
+
+- Record ID
+- Original order ID
+- Customer name
+- Product name
+- Quantity
+- Price
+- Total
+- Status
+- Completed at
+
+The dashboard and reports use the order records table to calculate sales.
+
+## 10. Route Naming Guide
+
+Consistent route names help avoid route errors.
+
+### Shared Dashboard
+
+```php
+Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+    ->name('dashboard');
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Admin Routes
 
-## Contributing
+```php
+admin.index
+admin.orders.index
+admin.kitchen
+admin.inventory
+admin.products.create
+admin.products.store
+admin.products.edit
+admin.products.update
+admin.products.destroy
+admin.stocks.create
+admin.stocks.store
+admin.stocks.edit
+admin.stocks.update
+admin.stocks.destroy
+reports.index
+reports.export
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Cashier Routes
 
-## Code of Conduct
+```php
+cashier.dashboard
+cashier.orders.index
+cashier.orders.store
+cashier.orders.destroy
+cashier.kitchen
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Kitchen Routes
 
-## Security Vulnerabilities
+```php
+kitchen.dashboard
+kitchen.index
+kitchen.orders.accept
+kitchen.orders.ready
+kitchen.orders.complete
+kitchen.inventory
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 11. Common Errors and Fixes
 
-## License
+### Route not defined
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Example:
+
+```txt
+Route [admin.stocks.create] not defined
+```
+
+This happens when the route name in the Blade file does not match the route name in `routes/web.php`.
+
+Correct route:
+
+```php
+Route::get('/admin/stocks/create', [AdminStockController::class, 'create'])
+    ->name('admin.stocks.create');
+```
+
+Correct Blade code:
+
+```blade
+<a href="{{ route('admin.stocks.create') }}">
+```
+
+### 403 Unauthorized
+
+This happens when a user opens a page for another role.
+
+Example:
+
+A kitchen user should not open:
+
+```txt
+/admin/kitchen
+```
+
+Correct kitchen queue URL:
+
+```txt
+/kitchen/kitchen
+```
+
+### PATCH method not supported
+
+This usually happens when a form submits to the wrong route or uses the wrong method.
+
+Use this inside PATCH forms:
+
+```blade
+@csrf
+@method('PATCH')
+```
+
+## 12. Suggested Database Tables
+
+### users
+
+- id
+- name
+- username
+- email
+- password
+- role
+- created_at
+- updated_at
+
+### products
+
+- id
+- name
+- category
+- description
+- price
+- stock
+- status
+- created_at
+- updated_at
+
+### inventories
+
+- id
+- name
+- category
+- stock_level
+- unit
+- min_stock
+- date_added
+- expiration_date
+- created_at
+- updated_at
+
+### orders
+
+- id
+- customer_name
+- product_name
+- price
+- quantity
+- status
+- created_at
+- updated_at
+
+### order_records
+
+- id
+- order_id
+- customer_name
+- product_name
+- quantity
+- price
+- total
+- status
+- completed_at
+- created_at
+- updated_at
+
+### audit_logs
+
+- id
+- user_id
+- user_name
+- action
+- details
+- created_at
+- updated_at
+
+## 13. Installation Guide
+
+1. Open the project folder.
+
+```bash
+cd C:\laragon\www\LemonHaus\LemonHaus
+```
+
+2. Install PHP dependencies.
+
+```bash
+composer install
+```
+
+3. Install frontend dependencies.
+
+```bash
+npm install
+```
+
+4. Copy the environment file.
+
+```bash
+copy .env.example .env
+```
+
+5. Generate the app key.
+
+```bash
+php artisan key:generate
+```
+
+6. Set the database in `.env`.
+
+Example:
+
+```env
+DB_DATABASE=lemonhaus
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+7. Run migrations.
+
+```bash
+php artisan migrate
+```
+
+8. Start the Laravel server.
+
+```bash
+php artisan serve
+```
+
+9. Open the system in the browser.
+
+```txt
+http://127.0.0.1:8000
+```
+
+## 14. Cache Clearing Commands
+
+Run these commands after changing routes or views:
+
+```bash
+php artisan route:clear
+php artisan view:clear
+php artisan optimize:clear
+```
+
+To check available routes:
+
+```bash
+php artisan route:list
+```
+
+## 15. Recommended Improvements
+
+Possible improvements:
+
+- Automatic stock deduction based on product recipe
+- Sales report charts
+- Product image upload
+- Printable receipts
+- Low stock notifications
+- Expired stock alerts
+- Export inventory report
+- Role-based dashboard customization
+- Activity log filters
+- Search and pagination for tables
+
+## Project Title
+
+LemonHaus Management System
+
+## Technology Stack
+
+- Laravel
+- PHP
+- MySQL
+- Blade
+- Tailwind CSS
+- JavaScript
+- SweetAlert2
+- Laragon
+
+## Status
+
+Development version
